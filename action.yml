@@ -11,9 +11,13 @@ inputs:
     description: 'Your hashnode publication name, Example: blog.hashnode.dev'
     required: true
   POST_COUNT:
-    description: 'Number of posts count`
+    description: 'Number of posts count'
     required: false
     default: 6
+  FILE:
+    description: 'File name to save the output'
+    required: false
+    default: 'README.md'
 
 runs:
   using: node20
