@@ -2722,6 +2722,37 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 397:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const child_process_1 = __nccwpck_require__(81);
+const path_1 = __importDefault(__nccwpck_require__(17));
+const exec = (cmd, args = []) => new Promise((resolve, reject) => {
+    const app = (0, child_process_1.spawn)(cmd, args, { stdio: 'inherit' });
+    app.on('close', (code) => {
+        if (code !== 0) {
+            const err = new Error(`Invalid status code: ${code}`);
+            Object.defineProperty(err, 'code', { value: code });
+            return reject(err);
+        }
+        return resolve(code);
+    });
+    app.on('error', reject);
+});
+const main = async () => {
+    return await exec('bash', [path_1.default.join(__dirname, './commit.sh')]);
+};
+exports["default"] = main;
+
+
+/***/ }),
+
 /***/ 477:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -2801,10 +2832,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const hashnodeQuery_1 = __nccwpck_require__(477);
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const commitFiles_1 = __importDefault(__nccwpck_require__(397));
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -2819,8 +2855,26 @@ async function run() {
         core.debug(`Post Count: ${postCount}`);
         core.debug(`Output File Name: ${outputFileName}`);
         // fetch posts from hashnode
-        const posts = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
-        core.debug(`Posts: ${JSON.stringify(posts.data.publication.posts.edges.map(edge => edge.node))}`);
+        const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
+        const posts = response.data.publication.posts.edges.map(edge => edge.node);
+        const createMarkdownTable = (posts) => {
+            return posts
+                .map(post => {
+                return `| ![${post.title}](${post.coverImage.url}) | [${post.title}](https://blog.alexdevero.com/${post.slug}) | ${post.publishedAt} |`;
+            })
+                .join('\n');
+        };
+        const regex = /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm;
+        const filePath = `${process.env.GITHUB_WORKSPACE}/${outputFileName}`;
+        const fileContent = fs_1.default.readFileSync(filePath, 'utf8');
+        const output = createMarkdownTable(posts);
+        const result = fileContent.toString().replace(regex, `$1\n${output}\n$3`);
+        fs_1.default.writeFileSync(filePath, result, 'utf8');
+        await (0, commitFiles_1.default)().catch(err => {
+            core.error(err);
+            core.info(err.stack);
+            process.exit(err.code || -1);
+        });
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -2838,6 +2892,14 @@ exports.run = run;
 
 "use strict";
 module.exports = require("assert");
+
+/***/ }),
+
+/***/ 81:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
 
 /***/ }),
 
