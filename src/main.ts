@@ -16,6 +16,7 @@ export async function run(): Promise<void> {
     const publicationName: string = core.getInput('HASHNODE_PUBLICATION_NAME')
     const postCount: number = parseInt(core.getInput('POST_COUNT'))
     const outputFileName: string = core.getInput('FILE')
+    const isDebug: boolean = core.getInput('DEBUG') === 'true'
 
     // fetch posts from hashnode
     const response = await fetchPosts(publicationName, postCount)
@@ -32,12 +33,15 @@ export async function run(): Promise<void> {
 
     fs.writeFileSync(filePath, result, 'utf8')
 
-    // eslint-disable-next-line github/no-then
-    await commitFile().catch(err => {
-      core.error(err)
-      core.info(err.stack)
-      process.exit(err.code || -1)
-    })
+    // commit changes to the file when not in debug mode
+    if (!isDebug) {
+      // eslint-disable-next-line github/no-then
+      await commitFile().catch(err => {
+        core.error(err)
+        core.info(err.stack)
+        process.exit(err.code || -1)
+      })
+    }
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

@@ -2853,6 +2853,7 @@ async function run() {
         const publicationName = core.getInput('HASHNODE_PUBLICATION_NAME');
         const postCount = parseInt(core.getInput('POST_COUNT'));
         const outputFileName = core.getInput('FILE');
+        const isDebug = core.getInput('DEBUG') === 'true';
         // fetch posts from hashnode
         const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
         const posts = response.data.publication.posts.edges.map(edge => edge.node);
@@ -2863,12 +2864,15 @@ async function run() {
             .toString()
             .replace(SECTION_REGEX, `$1\n${output}\n$3`);
         fs_1.default.writeFileSync(filePath, result, 'utf8');
-        // eslint-disable-next-line github/no-then
-        await (0, commitFiles_1.default)().catch(err => {
-            core.error(err);
-            core.info(err.stack);
-            process.exit(err.code || -1);
-        });
+        // commit changes to the file when not in debug mode
+        if (!isDebug) {
+            // eslint-disable-next-line github/no-then
+            await (0, commitFiles_1.default)().catch(err => {
+                core.error(err);
+                core.info(err.stack);
+                process.exit(err.code || -1);
+            });
+        }
     }
     catch (error) {
         // Fail the workflow run if an error occurs

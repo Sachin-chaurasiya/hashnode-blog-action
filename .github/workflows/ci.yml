@@ -57,6 +57,7 @@ jobs:
         uses: ./
         with:
           HASHNODE_PUBLICATION_NAME: 'blog.sachinchaurasiya.dev'
+          DEBUG: true
         env:
           ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
