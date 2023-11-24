@@ -2733,7 +2733,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const child_process_1 = __nccwpck_require__(81);
 const path_1 = __importDefault(__nccwpck_require__(17));
-const exec = (cmd, args = []) => new Promise((resolve, reject) => {
+const exec = async (cmd, args = []) => new Promise((resolve, reject) => {
     const app = (0, child_process_1.spawn)(cmd, args, { stdio: 'inherit' });
     app.on('close', (code) => {
         if (code !== 0) {
@@ -2857,8 +2857,8 @@ async function run() {
         // fetch posts from hashnode
         const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
         const posts = response.data.publication.posts.edges.map(edge => edge.node);
-        const createMarkdownTable = (posts) => {
-            return posts
+        const createMarkdownTable = (postList) => {
+            return postList
                 .map(post => {
                 return `| ![${post.title}](${post.coverImage.url}) | [${post.title}](https://blog.alexdevero.com/${post.slug}) | ${post.publishedAt} |`;
             })
@@ -2870,6 +2870,7 @@ async function run() {
         const output = createMarkdownTable(posts);
         const result = fileContent.toString().replace(regex, `$1\n${output}\n$3`);
         fs_1.default.writeFileSync(filePath, result, 'utf8');
+        // eslint-disable-next-line github/no-then
         await (0, commitFiles_1.default)().catch(err => {
             core.error(err);
             core.info(err.stack);

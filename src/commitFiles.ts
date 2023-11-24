@@ -1,7 +1,7 @@
 import { spawn } from 'child_process'
 import path from 'path'
 
-const exec = (cmd: string, args: string[] = []): Promise<number> =>
+const exec = async (cmd: string, args: string[] = []): Promise<number> =>
   new Promise((resolve, reject) => {
     const app = spawn(cmd, args, { stdio: 'inherit' })
     app.on('close', (code: number) => {

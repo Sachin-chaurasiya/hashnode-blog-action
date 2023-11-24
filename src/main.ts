@@ -23,8 +23,8 @@ export async function run(): Promise<void> {
     const response = await fetchPosts(publicationName, postCount)
     const posts = response.data.publication.posts.edges.map(edge => edge.node)
 
-    const createMarkdownTable = (posts: PostNode[]) => {
-      return posts
+    const createMarkdownTable = (postList: PostNode[]): string => {
+      return postList
         .map(post => {
           return `| ![${post.title}](${post.coverImage.url}) | [${post.title}](https://blog.alexdevero.com/${post.slug}) | ${post.publishedAt} |`
         })
@@ -43,6 +43,7 @@ export async function run(): Promise<void> {
 
     fs.writeFileSync(filePath, result, 'utf8')
 
+    // eslint-disable-next-line github/no-then
     await commitFile().catch(err => {
       core.error(err)
       core.info(err.stack)
