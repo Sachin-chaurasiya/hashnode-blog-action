@@ -1,4 +1,3 @@
-// @ts-ignore
 import { HashNodeArticleResponse } from 'HashNodeTypes'
 
 export const BASE_URL = 'https://gql.hashnode.com/'
