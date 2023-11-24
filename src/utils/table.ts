@@ -3,6 +3,7 @@ import { PostNode } from 'HashNodeTypes'
 export const createMarkdownTable = (postList: PostNode[]): string => {
   let tableContent = '<table>'
 
+  // eslint-disable-next-line github/array-foreach
   postList.forEach(post => {
     const { title, brief, coverImage, url } = post
 
