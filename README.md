@@ -14,7 +14,7 @@
 | `HASHNODE_PUBLICATION_NAME` | Your hashnode publication name, Example: blog.hashnode.dev |    null     |   true   |
 |        `POST_COUNT`         |                   Number of posts count                    |      6      |  false   |
 |           `FILE`            |                File name to save the output                | `README.md` |  false   |
-|           `DEBUG`           |                        'Debug mode'                        |    false    |  false   |
+|           `DEBUG`           |                        Debug mode                        |    false    |  false   |
 
 ## 🚀 Usage
 
