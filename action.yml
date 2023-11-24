@@ -1,23 +1,19 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Hashnode Blog Action'
+description: 'Action to pull your latest blog and show it in a nice format.'
+author: 'Sachin-chaurasiya'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'hash'
+  color: 'blue'
 
-# Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  HASHNODE_PUBLICATION_NAME:
+    description: 'Your hashnode publication name, Example: blog.hashnode.dev'
     required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  POST_COUNT:
+    description: 'Number of posts count`
+    required: false
+    default: 6
 
 runs:
   using: node20
