@@ -13,7 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "newLine": "lf"
+    "newLine": "lf",
+    "typeRoots": ["./@types", "./node_modules/@types"]
   },
   "exclude": ["./dist", "./node_modules", "./__tests__", "./coverage"]
 }

@@ -2722,6 +2722,88 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 397:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const child_process_1 = __nccwpck_require__(81);
+const path_1 = __importDefault(__nccwpck_require__(17));
+const exec = async (cmd, args = []) => new Promise((resolve, reject) => {
+    const app = (0, child_process_1.spawn)(cmd, args, { stdio: 'inherit' });
+    app.on('close', (code) => {
+        if (code !== 0) {
+            const err = new Error(`Invalid status code: ${code}`);
+            Object.defineProperty(err, 'code', { value: code });
+            return reject(err);
+        }
+        return resolve(code);
+    });
+    app.on('error', reject);
+});
+const main = async () => {
+    return await exec('bash', [path_1.default.join(__dirname, './commit.sh')]);
+};
+exports["default"] = main;
+
+
+/***/ }),
+
+/***/ 477:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fetchPosts = exports.BASE_URL = void 0;
+exports.BASE_URL = 'https://gql.hashnode.com/';
+const getQuery = (publicationName, limit) => {
+    return `{
+  publication(host: "${publicationName}") {
+    posts(first: ${limit}) {
+      totalDocuments
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          title
+          brief
+          slug
+          publishedAt
+          coverImage {
+            url
+          }
+          reactionCount
+          replyCount
+        }
+      }
+    }
+  }
+}`;
+};
+const fetchPosts = async (publicationName, limit) => {
+    const query = getQuery(publicationName, limit);
+    const response = await fetch(exports.BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+    });
+    const data = await response.json();
+    return data;
+};
+exports.fetchPosts = fetchPosts;
+
+
+/***/ }),
+
 /***/ 399:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2750,25 +2832,50 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(186));
-const wait_1 = __nccwpck_require__(259);
+const hashnodeQuery_1 = __nccwpck_require__(477);
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const commitFiles_1 = __importDefault(__nccwpck_require__(397));
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
     try {
-        const ms = core.getInput('milliseconds');
+        const publicationName = core.getInput('HASHNODE_PUBLICATION_NAME');
+        const postCount = parseInt(core.getInput('POST_COUNT'));
+        const outputFileName = core.getInput('FILE');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Waiting ${ms} milliseconds ...`);
-        // Log the current timestamp, wait, then log the new timestamp
-        core.debug(new Date().toTimeString());
-        await (0, wait_1.wait)(parseInt(ms, 10));
-        core.debug(new Date().toTimeString());
-        // Set outputs for other workflow steps to use
-        core.setOutput('time', new Date().toTimeString());
+        core.debug(`Publication Name: ${publicationName}`);
+        core.debug(`Post Count: ${postCount}`);
+        core.debug(`Output File Name: ${outputFileName}`);
+        // fetch posts from hashnode
+        const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
+        const posts = response.data.publication.posts.edges.map(edge => edge.node);
+        const createMarkdownTable = (postList) => {
+            return postList
+                .map(post => {
+                return `| ![${post.title}](${post.coverImage.url}) | [${post.title}](https://blog.alexdevero.com/${post.slug}) | ${post.publishedAt} |`;
+            })
+                .join('\n');
+        };
+        const regex = /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm;
+        const filePath = `${process.env.GITHUB_WORKSPACE}/${outputFileName}`;
+        const fileContent = fs_1.default.readFileSync(filePath, 'utf8');
+        const output = createMarkdownTable(posts);
+        const result = fileContent.toString().replace(regex, `$1\n${output}\n$3`);
+        fs_1.default.writeFileSync(filePath, result, 'utf8');
+        // eslint-disable-next-line github/no-then
+        await (0, commitFiles_1.default)().catch(err => {
+            core.error(err);
+            core.info(err.stack);
+            process.exit(err.code || -1);
+        });
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -2781,36 +2888,19 @@ exports.run = run;
 
 /***/ }),
 
-/***/ 259:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.wait = void 0;
-/**
- * Wait for a number of milliseconds.
- * @param milliseconds The number of milliseconds to wait.
- * @returns {Promise<string>} Resolves with 'done!' after the wait is over.
- */
-async function wait(milliseconds) {
-    return new Promise(resolve => {
-        if (isNaN(milliseconds)) {
-            throw new Error('milliseconds not a number');
-        }
-        setTimeout(() => resolve('done!'), milliseconds);
-    });
-}
-exports.wait = wait;
-
-
-/***/ }),
-
 /***/ 491:
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("assert");
+
+/***/ }),
+
+/***/ 81:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
 
 /***/ }),
 
