@@ -57,3 +57,5 @@ jobs:
         uses: ./
         with:
           HASHNODE_PUBLICATION_NAME: 'blog.sachinchaurasiya.dev'
+        env:
+          ACTIONS_STEP_DEBUG: true

@@ -2,7 +2,7 @@ import { HashNodeArticleResponse } from 'HashNodeTypes'
 
 export const BASE_URL = 'https://gql.hashnode.com/'
 
-const getQuery = (publicationName: string, limit: number) => {
+const getQuery = (publicationName: string, limit: number): string => {
   return `{
   publication(host: "${publicationName}") {
     posts(first: ${limit}) {
