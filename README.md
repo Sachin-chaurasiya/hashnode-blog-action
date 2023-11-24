@@ -20,7 +20,7 @@
 
 ### 💾 In Repository File
 
-#### 1. Add The Below Content To Your README.md / Any file you want to showcase
+#### Step 1: Include the Following Content in Your README.md or Any File for Display
 
 ```markdown
 ## My Latest Blog Posts 👇
@@ -29,7 +29,7 @@
 <!-- HASHNODE_BLOG:END -->
 ```
 
-#### 2. Configure The Worklfow
+#### Step 2: Configure The Workflow
 
 ```yaml
 name: 'Hashnode Blogs'
