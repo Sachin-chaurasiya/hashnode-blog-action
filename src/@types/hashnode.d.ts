@@ -9,6 +9,7 @@ declare module 'HashNodeTypes' {
   }
 
   export interface PostNode {
+    url: string
     title: string
     brief: string
     slug: string
