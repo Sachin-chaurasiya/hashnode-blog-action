@@ -22,4 +22,4 @@ else
 	echo "  ✅ Blog List Upto Date"
 fi
 
-git push $GIT_URL
+git push "$GIT_URL"
