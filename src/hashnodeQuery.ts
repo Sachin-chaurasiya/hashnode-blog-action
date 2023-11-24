@@ -1,4 +1,4 @@
-import { HashNodeArticleResponse } from 'HashNodeTypes'
+import { HashNodeArticleResponse } from './@types/hashnode'
 
 export const BASE_URL = 'https://gql.hashnode.com/'
 
