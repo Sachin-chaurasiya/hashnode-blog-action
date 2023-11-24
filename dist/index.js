@@ -2765,7 +2765,7 @@ const fetchPosts = async (publicationName, limit) => {
         },
         body: JSON.stringify({ query })
     });
-    const { data } = await response.json();
+    const data = await response.json();
     return data;
 };
 exports.fetchPosts = fetchPosts;
