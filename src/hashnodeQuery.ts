@@ -13,6 +13,7 @@ const getQuery = (publicationName: string, limit: number): string => {
       }
       edges {
         node {
+          url
           title
           brief
           slug

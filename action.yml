@@ -18,6 +18,10 @@ inputs:
     description: 'File name to save the output'
     required: false
     default: 'README.md'
+  DEBUG:
+    description: 'Debug mode'
+    required: false
+    default: false
 
 runs:
   using: node20

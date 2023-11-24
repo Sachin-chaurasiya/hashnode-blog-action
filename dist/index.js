@@ -2772,6 +2772,7 @@ const getQuery = (publicationName, limit) => {
       }
       edges {
         node {
+          url
           title
           brief
           slug
@@ -2841,6 +2842,8 @@ const core = __importStar(__nccwpck_require__(186));
 const hashnodeQuery_1 = __nccwpck_require__(477);
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const commitFiles_1 = __importDefault(__nccwpck_require__(397));
+const table_1 = __nccwpck_require__(50);
+const SECTION_REGEX = /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm;
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -2850,32 +2853,26 @@ async function run() {
         const publicationName = core.getInput('HASHNODE_PUBLICATION_NAME');
         const postCount = parseInt(core.getInput('POST_COUNT'));
         const outputFileName = core.getInput('FILE');
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Publication Name: ${publicationName}`);
-        core.debug(`Post Count: ${postCount}`);
-        core.debug(`Output File Name: ${outputFileName}`);
+        const isDebug = core.getInput('DEBUG') === 'true';
         // fetch posts from hashnode
         const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
         const posts = response.data.publication.posts.edges.map(edge => edge.node);
-        const createMarkdownTable = (postList) => {
-            return postList
-                .map(post => {
-                return `| ![${post.title}](${post.coverImage.url}) | [${post.title}](https://blog.alexdevero.com/${post.slug}) | ${post.publishedAt} |`;
-            })
-                .join('\n');
-        };
-        const regex = /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm;
         const filePath = `${process.env.GITHUB_WORKSPACE}/${outputFileName}`;
         const fileContent = fs_1.default.readFileSync(filePath, 'utf8');
-        const output = createMarkdownTable(posts);
-        const result = fileContent.toString().replace(regex, `$1\n${output}\n$3`);
+        const output = (0, table_1.createMarkdownTable)(posts);
+        const result = fileContent
+            .toString()
+            .replace(SECTION_REGEX, `$1\n${output}\n$3`);
         fs_1.default.writeFileSync(filePath, result, 'utf8');
-        // eslint-disable-next-line github/no-then
-        await (0, commitFiles_1.default)().catch(err => {
-            core.error(err);
-            core.info(err.stack);
-            process.exit(err.code || -1);
-        });
+        // commit changes to the file when not in debug mode
+        if (!isDebug) {
+            // eslint-disable-next-line github/no-then
+            await (0, commitFiles_1.default)().catch(err => {
+                core.error(err);
+                core.info(err.stack);
+                process.exit(err.code || -1);
+            });
+        }
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -2884,6 +2881,31 @@ async function run() {
     }
 }
 exports.run = run;
+
+
+/***/ }),
+
+/***/ 50:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createMarkdownTable = void 0;
+const createMarkdownTable = (postList) => {
+    let tableContent = '<table>';
+    // eslint-disable-next-line github/array-foreach
+    postList.forEach(post => {
+        const { title, brief, coverImage, url } = post;
+        tableContent += '<tr>';
+        tableContent += `<td><img src="${coverImage.url}" alt="${title}" width="100" height="100"></td>`;
+        tableContent += `<td><a href="${url}"><strong>${title}</strong></a><br>${brief}</td>`;
+        tableContent += '</tr>';
+    });
+    tableContent += '</table>';
+    return tableContent;
+};
+exports.createMarkdownTable = createMarkdownTable;
 
 
 /***/ }),
