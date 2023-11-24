@@ -1,21 +1,23 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
+  "name": "hashnode-blog-action",
+  "description": "Action to pull your latest blog and show it in a nice format.",
   "version": "0.0.0",
-  "author": "",
+  "author": "Sachin-chaurasiya",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/Sachin-chaurasiya/hashnode-blog-action",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/Sachin-chaurasiya/hashnode-blog-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/Sachin-chaurasiya/hashnode-blog-action/issues"
   },
   "keywords": [
-    "actions",
+    "hashnode",
+    "blog",
+    "action",
     "node",
-    "setup"
+    "typescript"
   ],
   "exports": {
     ".": "./dist/index.js"
