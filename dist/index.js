@@ -2722,6 +2722,57 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 477:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.fetchPosts = exports.BASE_URL = void 0;
+exports.BASE_URL = 'https://gql.hashnode.com/';
+const getQuery = (publicationName, limit) => {
+    return `{
+  publication(host: "${publicationName}") {
+    posts(first: ${limit}) {
+      totalDocuments
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          title
+          brief
+          slug
+          publishedAt
+          coverImage {
+            url
+          }
+          reactionCount
+          replyCount
+        }
+      }
+    }
+  }
+}`;
+};
+const fetchPosts = async (publicationName, limit) => {
+    const query = getQuery(publicationName, limit);
+    const response = await fetch(exports.BASE_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query })
+    });
+    const { data } = await response.json();
+    return data;
+};
+exports.fetchPosts = fetchPosts;
+
+
+/***/ }),
+
 /***/ 399:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2753,22 +2804,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(186));
-const wait_1 = __nccwpck_require__(259);
+const hashnodeQuery_1 = __nccwpck_require__(477);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
 async function run() {
     try {
-        const ms = core.getInput('milliseconds');
+        const publicationName = core.getInput('HASHNODE_PUBLICATION_NAME');
+        const postCount = parseInt(core.getInput('POST_COUNT'));
+        const outputFileName = core.getInput('FILE');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Waiting ${ms} milliseconds ...`);
-        // Log the current timestamp, wait, then log the new timestamp
-        core.debug(new Date().toTimeString());
-        await (0, wait_1.wait)(parseInt(ms, 10));
-        core.debug(new Date().toTimeString());
-        // Set outputs for other workflow steps to use
-        core.setOutput('time', new Date().toTimeString());
+        core.debug(`Publication Name: ${publicationName}`);
+        core.debug(`Post Count: ${postCount}`);
+        core.debug(`Output File Name: ${outputFileName}`);
+        // fetch posts from hashnode
+        const posts = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
+        core.debug(`Posts: ${JSON.stringify(posts.data.publication.posts.edges.map(edge => edge.node))}`);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -2777,31 +2829,6 @@ async function run() {
     }
 }
 exports.run = run;
-
-
-/***/ }),
-
-/***/ 259:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.wait = void 0;
-/**
- * Wait for a number of milliseconds.
- * @param milliseconds The number of milliseconds to wait.
- * @returns {Promise<string>} Resolves with 'done!' after the wait is over.
- */
-async function wait(milliseconds) {
-    return new Promise(resolve => {
-        if (isNaN(milliseconds)) {
-            throw new Error('milliseconds not a number');
-        }
-        setTimeout(() => resolve('done!'), milliseconds);
-    });
-}
-exports.wait = wait;
 
 
 /***/ }),
