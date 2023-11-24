@@ -223,8 +223,5 @@ following steps:
    to the remote repository. From here, you will need to create a new release in
    GitHub and users can easily reference the new tag in their workflows.
 
-
 <!-- HASHNODE_BLOG:START -->
 <!-- HASHNODE_BLOG:END -->
-
-   
