@@ -57,6 +57,4 @@ jobs:
 ```
 ### Live Example : [Sachin-chaurasiya/Sachin-chaurasiya](https://github.com/Sachin-chaurasiya/Sachin-chaurasiya?tab=readme-ov-file#recent-blog-posts-%EF%B8%8F)
 
-### Inspired by
-
-[hashnode-blog](https://github.com/marketplace/actions/hashnode-blog)
+![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/413bac2d-6dfc-49a0-ac01-9286a8aeebf3)
