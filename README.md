@@ -13,6 +13,7 @@
 | :-------------------------: | :--------------------------------------------------------: | :---------: | :------: |
 | `HASHNODE_PUBLICATION_NAME` | Your hashnode publication name, Example: blog.hashnode.dev |    null     |   true   |
 |        `POST_COUNT`         |                   Number of posts count                    |      6      |  false   |
+|          `FORMAT`           |             Output format (table, list, card)              |   `table`   |  false   |
 |           `FILE`            |                Filename to save the output                 | `README.md` |  false   |
 |           `DEBUG`           |                         Debug mode                         |    false    |  false   |
 
@@ -55,6 +56,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
 ### Live Example : [Sachin-chaurasiya/Sachin-chaurasiya](https://github.com/Sachin-chaurasiya/Sachin-chaurasiya?tab=readme-ov-file#recent-blog-posts-%EF%B8%8F)
 
 ![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/413bac2d-6dfc-49a0-ac01-9286a8aeebf3)

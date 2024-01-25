@@ -36,4 +36,6 @@ declare module 'HashNodeTypes' {
       }
     }
   }
+
+  export type ContentFormat = 'table' | 'list' | 'card'
 }

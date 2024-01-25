@@ -2,7 +2,8 @@ import * as core from '@actions/core'
 import { fetchPosts } from './hashnodeQuery'
 import fs from 'fs'
 import commitFile from './commitFiles'
-import { createMarkdownTable } from './utils/table'
+import { getFormattedContent } from './utils/formatUtils'
+import { ContentFormat } from 'HashNodeTypes'
 
 const SECTION_REGEX =
   /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm
@@ -16,6 +17,8 @@ export async function run(): Promise<void> {
     const publicationName: string = core.getInput('HASHNODE_PUBLICATION_NAME')
     const postCount: number = parseInt(core.getInput('POST_COUNT'))
     const outputFileName: string = core.getInput('FILE')
+    const format: ContentFormat = (core.getInput('FORMAT') ??
+      'table') as ContentFormat
     const isDebug: boolean = core.getInput('DEBUG') === 'true'
 
     // fetch posts from hashnode
@@ -25,7 +28,7 @@ export async function run(): Promise<void> {
     const filePath = `${process.env.GITHUB_WORKSPACE}/${outputFileName}`
     const fileContent = fs.readFileSync(filePath, 'utf8')
 
-    const output = createMarkdownTable(posts)
+    const output = getFormattedContent(posts, format)
 
     const result = fileContent
       .toString()
