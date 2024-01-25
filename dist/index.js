@@ -2928,9 +2928,8 @@ const createMarkdownTable = (postList) => {
 const createMarkdownList = (postList) => {
     let listContent = '';
     postList.forEach(post => {
-        const { title, brief, url } = post;
+        const { title, url } = post;
         listContent += `- [${title}](${url})\n`;
-        listContent += `  ${brief}\n`;
     });
     return listContent;
 };
@@ -2939,7 +2938,7 @@ const createMarkdownCard = (postList) => {
     postList.forEach(post => {
         const { title, brief, coverImage, url, publishedAt } = post;
         cardContent += `<a href="${url}"><img src="${coverImage.url}" alt="${title}"></a>`;
-        cardContent += `<a href="${url}"><strong>${title} • ${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)} </strong></a><br>${brief}\n`;
+        cardContent += `<a href="${url}"><strong>${title} • ${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)} </strong></a><br/>${brief}<br/><br/>`;
     });
     return cardContent;
 };
