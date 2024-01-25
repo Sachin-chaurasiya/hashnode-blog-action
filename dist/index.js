@@ -2842,7 +2842,7 @@ const core = __importStar(__nccwpck_require__(186));
 const hashnodeQuery_1 = __nccwpck_require__(477);
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const commitFiles_1 = __importDefault(__nccwpck_require__(397));
-const table_1 = __nccwpck_require__(50);
+const formatUtils_1 = __nccwpck_require__(493);
 const SECTION_REGEX = /^(<!--(?:\s|)HASHNODE_BLOG:(?:START|start)(?:\s|)-->)(?:\n|)([\s\S]*?)(?:\n|)(<!--(?:\s|)HASHNODE_BLOG:(?:END|end)(?:\s|)-->)$/gm;
 /**
  * The main function for the action.
@@ -2853,13 +2853,15 @@ async function run() {
         const publicationName = core.getInput('HASHNODE_PUBLICATION_NAME');
         const postCount = parseInt(core.getInput('POST_COUNT'));
         const outputFileName = core.getInput('FILE');
+        const format = (core.getInput('FORMAT') ??
+            'table');
         const isDebug = core.getInput('DEBUG') === 'true';
         // fetch posts from hashnode
         const response = await (0, hashnodeQuery_1.fetchPosts)(publicationName, postCount);
         const posts = response.data.publication.posts.edges.map(edge => edge.node);
         const filePath = `${process.env.GITHUB_WORKSPACE}/${outputFileName}`;
         const fileContent = fs_1.default.readFileSync(filePath, 'utf8');
-        const output = (0, table_1.createMarkdownTable)(posts);
+        const output = (0, formatUtils_1.getFormattedContent)(posts, format);
         const result = fileContent
             .toString()
             .replace(SECTION_REGEX, `$1\n${output}\n$3`);
@@ -2885,16 +2887,34 @@ exports.run = run;
 
 /***/ }),
 
-/***/ 50:
+/***/ 438:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.createMarkdownTable = void 0;
+exports.getFormattedDateFromString = void 0;
+const getFormattedDateFromString = (date) => new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
+exports.getFormattedDateFromString = getFormattedDateFromString;
+
+
+/***/ }),
+
+/***/ 493:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getFormattedContent = void 0;
+const dateUtils_1 = __nccwpck_require__(438);
+/* eslint-disable github/array-foreach */
 const createMarkdownTable = (postList) => {
     let tableContent = '<table>';
-    // eslint-disable-next-line github/array-foreach
     postList.forEach(post => {
         const { title, brief, coverImage, url } = post;
         tableContent += '<tr>';
@@ -2905,7 +2925,36 @@ const createMarkdownTable = (postList) => {
     tableContent += '</table>';
     return tableContent;
 };
-exports.createMarkdownTable = createMarkdownTable;
+const createMarkdownList = (postList) => {
+    let listContent = '';
+    postList.forEach(post => {
+        const { title, brief, url } = post;
+        listContent += `- [${title}](${url})\n`;
+        listContent += `  ${brief}\n`;
+    });
+    return listContent;
+};
+const createMarkdownCard = (postList) => {
+    let cardContent = '';
+    postList.forEach(post => {
+        const { title, brief, coverImage, url, publishedAt } = post;
+        cardContent += `<a href="${url}"><img src="${coverImage.url}" alt="${title}"></a>`;
+        cardContent += `<a href="${url}"><strong>${title} • ${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)} </strong></a><br>${brief}\n`;
+    });
+    return cardContent;
+};
+const getFormattedContent = (postList, format) => {
+    switch (format) {
+        case 'list':
+            return createMarkdownList(postList);
+        case 'card':
+            return createMarkdownCard(postList);
+        case 'table':
+        default:
+            return createMarkdownTable(postList);
+    }
+};
+exports.getFormattedContent = getFormattedContent;
 
 
 /***/ }),
