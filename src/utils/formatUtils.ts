@@ -24,10 +24,9 @@ const createMarkdownList = (postList: PostNode[]): string => {
   let listContent = ''
 
   postList.forEach(post => {
-    const { title, brief, url } = post
+    const { title, url } = post
 
     listContent += `- [${title}](${url})\n`
-    listContent += `  ${brief}\n`
   })
 
   return listContent
@@ -42,7 +41,7 @@ const createMarkdownCard = (postList: PostNode[]): string => {
     cardContent += `<a href="${url}"><img src="${coverImage.url}" alt="${title}"></a>`
     cardContent += `<a href="${url}"><strong>${title} • ${getFormattedDateFromString(
       publishedAt
-    )} </strong></a><br>${brief}\n`
+    )} </strong></a><br/>${brief}<br/><br/>`
   })
 
   return cardContent
