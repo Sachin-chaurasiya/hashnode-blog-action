@@ -6,6 +6,12 @@
 
 <h1 align="center">Hashnode Blog GitHub Action - <i>Latest <a href="https://gql.hashnode.com/">Hashnode Public API</a> Support</i></h1>
 <p align="center">Action to pull your latest blog from hashnode and show it in a nice format</p>
+<p align="center">
+  <img src="https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg" alt="GitHub Super-Linter">
+  <img src="https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg" alt="CI">
+  <img src="https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg" alt="Check dist/">
+  <img src="https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL">
+</p>
 
 ## ⚙️ Configuration
 
