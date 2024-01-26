@@ -69,3 +69,24 @@ jobs:
 ### Card
 ![Card View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/8bcbbfed-e08b-4cf9-b1c8-d71d405ab084)
 
+## 🛡️ License
+
+Hashnode blog action is licensed under the MIT License - see the [LICENSE](https://github.com/Sachin-chaurasiya/hashnode-blog-action/blob/main/LICENSE) file for details.
+
+## Contributors
+
+We ❤️ all contributions, big and small! Check out our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started and let us know how we can help.
+
+Don't want to miss anything? Give the project a ⭐ 🚀 
+
+A HUGE THANK YOU to all our supporters!
+
+## Stargazers
+
+[![Stargazers of hashnode-blog-action](http://reporoster.com/stars/Sachin-chaurasiya/hashnode-blog-action)](https://github.com/Sachin-chaurasiya/hashnode-blog-action/stargazers)
+
+## Contributors
+
+<a href="https://github.com/Sachin-chaurasiya/hashnode-blog-action/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Sachin-chaurasiya/hashnode-blog-action" />
+</a>
