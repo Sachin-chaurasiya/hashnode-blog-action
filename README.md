@@ -21,7 +21,7 @@
 
 ### 💾 In Repository File
 
-#### Step 1: Include the Following Content in Your README.md or Any File for Display
+#### Step 1: Include the following content in your `README.md` or any file for display
 
 ```markdown
 ## My Latest Blog Posts 👇
@@ -53,11 +53,12 @@ jobs:
         with:
           HASHNODE_PUBLICATION_NAME: 'blog.hashnode.dev'
           POST_COUNT: 6
+          FORMAT: 'list'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## Live Example : [Sachin-chaurasiya/Sachin-chaurasiya](https://github.com/Sachin-chaurasiya/Sachin-chaurasiya?tab=readme-ov-file#recent-blog-posts-%EF%B8%8F)
+## 🚀 Live Example : [Sachin-chaurasiya/Sachin-chaurasiya](https://github.com/Sachin-chaurasiya/Sachin-chaurasiya?tab=readme-ov-file#recent-blog-posts-%EF%B8%8F)
 
 ### Table
 ![Table View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/413bac2d-6dfc-49a0-ac01-9286a8aeebf3)
