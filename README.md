@@ -25,9 +25,7 @@
 
 ## 🚀 Usage
 
-### 💾 In Repository File
-
-#### Step 1: Include the following content in your `README.md` or any file for display
+### Step 1: Include the following content in your `README.md` or any file for display
 
 ```markdown
 ## My Latest Blog Posts 👇
@@ -36,7 +34,7 @@
 <!-- HASHNODE_BLOG:END -->
 ```
 
-#### Step 2: Configure The Workflow
+### Step 2: Configure The Workflow
 
 ```yaml
 name: 'Hashnode Blogs'
