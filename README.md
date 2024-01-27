@@ -78,8 +78,7 @@ jobs:
 
 ### Stacked
 
-![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/177b42af-ba75-4f46-8e55-0c32fc9a4fe6)
-
+![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/d1b45bda-6cdb-4614-8d8a-cdf47a3efc36)
 
 ## 🛡️ License
 
