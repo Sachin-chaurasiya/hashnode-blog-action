@@ -19,7 +19,7 @@
 | :-------------------------: | :--------------------------------------------------------: | :---------: | :------: |
 | `HASHNODE_PUBLICATION_NAME` | Your hashnode publication name, Example: blog.hashnode.dev |    null     |   true   |
 |        `POST_COUNT`         |                   Number of posts count                    |      6      |  false   |
-|          `FORMAT`           |             Output format (table, list, card)              |   `table`   |  false   |
+|          `FORMAT`           |         Output format (table, list, card, stacked)         |   `table`   |  false   |
 |           `FILE`            |                Filename to save the output                 | `README.md` |  false   |
 |           `DEBUG`           |                         Debug mode                         |    false    |  false   |
 
@@ -65,23 +65,30 @@ jobs:
 ## 🚀 Live Example : [Sachin-chaurasiya/Sachin-chaurasiya](https://github.com/Sachin-chaurasiya/Sachin-chaurasiya?tab=readme-ov-file#recent-blog-posts-%EF%B8%8F)
 
 ### Table
+
 ![Table View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/413bac2d-6dfc-49a0-ac01-9286a8aeebf3)
 
 ### List
+
 ![List View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/844b3e39-1d37-48d0-87af-82756e42c483)
 
 ### Card
+
 ![Card View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/8bcbbfed-e08b-4cf9-b1c8-d71d405ab084)
 
 ## 🛡️ License
 
-Hashnode blog action is licensed under the MIT License - see the [LICENSE](https://github.com/Sachin-chaurasiya/hashnode-blog-action/blob/main/LICENSE) file for details.
+Hashnode blog action is licensed under the MIT License - see the
+[LICENSE](https://github.com/Sachin-chaurasiya/hashnode-blog-action/blob/main/LICENSE)
+file for details.
 
 ## Contributors
 
-We ❤️ all contributions, big and small! Check out our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started and let us know how we can help.
+We ❤️ all contributions, big and small! Check out our
+[CONTRIBUTING](./CONTRIBUTING.md) guide to get started and let us know how we
+can help.
 
-Don't want to miss anything? Give the project a ⭐ 🚀 
+Don't want to miss anything? Give the project a ⭐ 🚀
 
 A HUGE THANK YOU to all our supporters!
 
