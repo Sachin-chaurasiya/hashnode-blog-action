@@ -47,6 +47,36 @@ const createMarkdownCard = (postList: PostNode[]): string => {
   return cardContent
 }
 
+const createMarkdownStackedLayout = (postList: PostNode[]): string => {
+  let stackedContent = ''
+
+  postList.forEach(post => {
+    const { title, brief, coverImage, url, publishedAt } = post
+
+    stackedContent += `
+        <p align="left">
+            <a href="${url}" title="${title}">
+                <img src="${
+                  coverImage.url
+                }" alt="${title}" width="300px" align="left" />
+            </a>
+            <a href="${url}" title="${title}">
+                <strong>${title}</strong>
+            </a>
+            <div>
+                <strong>${getFormattedDateFromString(publishedAt)}</strong>
+            </div>
+            <br/>
+            ${brief}
+        </p> 
+        <br/> 
+        <br/>
+`
+  })
+
+  return stackedContent
+}
+
 export const getFormattedContent = (
   postList: PostNode[],
   format: ContentFormat
@@ -57,6 +87,8 @@ export const getFormattedContent = (
 
     case 'card':
       return createMarkdownCard(postList)
+    case 'stacked':
+      return createMarkdownStackedLayout(postList)
 
     case 'table':
     default:
