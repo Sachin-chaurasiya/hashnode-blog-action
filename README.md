@@ -76,6 +76,11 @@ jobs:
 
 ![Card View](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/8bcbbfed-e08b-4cf9-b1c8-d71d405ab084)
 
+### Stacked
+
+![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/177b42af-ba75-4f46-8e55-0c32fc9a4fe6)
+
+
 ## 🛡️ License
 
 Hashnode blog action is licensed under the MIT License - see the
