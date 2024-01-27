@@ -66,7 +66,7 @@ const createMarkdownStackedLayout = (postList: PostNode[]): string => {
     )}</strong>`
     stackedContent += `</div>`
     stackedContent += `<br/>`
-    stackedContent += `${brief}`
+    stackedContent += `${brief.slice(0, 200)}...`
     stackedContent += `</p>`
     stackedContent += `<br/>`
     stackedContent += `<br/>\n\n`

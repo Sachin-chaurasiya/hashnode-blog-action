@@ -2957,7 +2957,7 @@ const createMarkdownStackedLayout = (postList) => {
         stackedContent += `<strong>${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)}</strong>`;
         stackedContent += `</div>`;
         stackedContent += `<br/>`;
-        stackedContent += `${brief}`;
+        stackedContent += `${brief.slice(0, 200)}...`;
         stackedContent += `</p>`;
         stackedContent += `<br/>`;
         stackedContent += `<br/>\n\n`;
