@@ -2946,23 +2946,21 @@ const createMarkdownStackedLayout = (postList) => {
     let stackedContent = '';
     postList.forEach(post => {
         const { title, brief, coverImage, url, publishedAt } = post;
-        stackedContent += `
-        <p align="left">
-            <a href="${url}" title="${title}">
-                <img src="${coverImage.url}" alt="${title}" width="300px" align="left" />
-            </a>
-            <a href="${url}" title="${title}">
-                <strong>${title}</strong>
-            </a>
-            <div>
-                <strong>${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)}</strong>
-            </div>
-            <br/>
-            ${brief}
-        </p> 
-        <br/> 
-        <br/>
-`;
+        stackedContent += `<p align="left">`;
+        stackedContent += `<a href="${url}" title="${title}">`;
+        stackedContent += `<img src="${coverImage.url}" alt="${title}" width="300px" align="left" />`;
+        stackedContent += `</a>`;
+        stackedContent += `<a href="${url}" title="${title}">`;
+        stackedContent += `<strong>${title}</strong>`;
+        stackedContent += `</a>`;
+        stackedContent += `<div>`;
+        stackedContent += `<strong>${(0, dateUtils_1.getFormattedDateFromString)(publishedAt)}</strong>`;
+        stackedContent += `</div>`;
+        stackedContent += `<br/>`;
+        stackedContent += `${brief}`;
+        stackedContent += `</p>`;
+        stackedContent += `<br/>`;
+        stackedContent += `<br/>\n\n`;
     });
     return stackedContent;
 };
