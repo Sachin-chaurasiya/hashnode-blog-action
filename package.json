@@ -1,7 +1,7 @@
 {
   "name": "hashnode-blog-action",
   "description": "Action to pull your latest blog and show it in a nice format.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Sachin-chaurasiya",
   "private": true,
   "homepage": "https://github.com/Sachin-chaurasiya/hashnode-blog-action",
