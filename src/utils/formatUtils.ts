@@ -70,7 +70,7 @@ const createMarkdownStackedLayout = (postList: PostNode[]): string => {
             ${brief}
         </p> 
         <br/> 
-        <br/>
+        <br/>\n\n
 `
   })
 
