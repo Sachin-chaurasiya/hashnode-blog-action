@@ -80,6 +80,47 @@ jobs:
 
 ![image](https://github.com/Sachin-chaurasiya/hashnode-blog-action/assets/59080942/d1b45bda-6cdb-4614-8d8a-cdf47a3efc36)
 
+## Local Development
+
+### Step1 : Fork and clone the repository
+
+```shell
+git clone https://github.com/<your-name>/hashnode-blog-action.git
+
+cd hashnode-blog-action
+```
+
+### Step2: Install the dependencies
+
+```shell
+npm install
+```
+
+### Step3: Make your changes
+
+### Step4: Adding tests (if applicable)
+Add unit test for your changes [__tests__](https://github.com/Sachin-chaurasiya/hashnode-blog-action/tree/main/__tests__)
+
+### Step5: Run the checks and package your changes
+
+> The below command will
+
+- Format your code
+- Lint your code
+- Run the unit tests and coverage
+- And Finally bundle everything
+
+```shell
+npm run all
+```
+### Step6: Raise a PR for your contribution
+
+```shell
+git add .
+git commit -m "meaningful commit message"
+git push <branch_name>
+```
+
 ## 🛡️ License
 
 Hashnode blog action is licensed under the MIT License - see the
