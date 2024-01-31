@@ -1,1 +1,2 @@
+# do not generate diff for generated files
 dist/** -diff linguist-generated=true
