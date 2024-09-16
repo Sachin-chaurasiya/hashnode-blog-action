@@ -2772,6 +2772,7 @@ const getQuery = (publicationName, limit) => {
       }
       edges {
         node {
+          id
           url
           title
           brief
